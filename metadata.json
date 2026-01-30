@@ -1,0 +1,8 @@
+{
+  "name": "Tread & Torque Pro Wrap Visualizer",
+  "description": "A professional AI-powered vehicle wrap visualization studio featuring concept generation, photorealistic image rendering, and lead management for Tread & Torque.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
