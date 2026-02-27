@@ -164,10 +164,22 @@ const Gallery: React.FC<Props> = ({ designs, generationState, onGenerate360, onP
                   </div>
                 </div>
                 <div className="pt-4 grid grid-cols-1 gap-3">
-                  <button onClick={() => onPromote(selectedDesign, 'editor')} className="flex items-center justify-center gap-2 bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-500 transition-all text-xs uppercase tracking-widest">
+                  <button 
+                    onClick={() => {
+                      onPromote(selectedDesign, 'editor');
+                      setSelectedDesign(null);
+                    }} 
+                    className="flex items-center justify-center gap-2 bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-500 transition-all text-xs uppercase tracking-widest"
+                  >
                     <Wand2 className="w-4 h-4" /> Open in Image Editor
                   </button>
-                  <button onClick={() => onPromote(selectedDesign, 'agent')} className="flex items-center justify-center gap-2 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-500 transition-all text-xs uppercase tracking-widest">
+                  <button 
+                    onClick={() => {
+                      onPromote(selectedDesign, 'agent');
+                      setSelectedDesign(null);
+                    }} 
+                    className="flex items-center justify-center gap-2 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-500 transition-all text-xs uppercase tracking-widest"
+                  >
                     <MessageSquare className="w-4 h-4" /> Discuss with Agent Zero
                   </button>
                   <div className="grid grid-cols-2 gap-3">
