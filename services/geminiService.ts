@@ -33,7 +33,8 @@ const getVehicleSilhouettePrompt = (vehicle: VehicleData) => {
 export const generateDesignConcepts = async (
   vehicle: VehicleData,
   design: DesignPreferences,
-  hasImage: boolean
+  hasImage: boolean,
+  base64Image?: string
 ): Promise<DesignConcept[]> => {
   return withRetry(async () => {
     const ai = getAI();
@@ -51,9 +52,16 @@ export const generateDesignConcepts = async (
       Return JSON with name, description, and rationale. Use Pro-level design thinking.
     `;
 
+    const parts: any[] = [{ text: prompt }];
+    if (base64Image) {
+      const mimeType = base64Image.split(';')[0].split(':')[1];
+      const data = base64Image.split(',')[1];
+      parts.push({ inlineData: { data, mimeType } });
+    }
+
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
-      contents: prompt,
+      contents: { parts },
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -72,6 +80,39 @@ export const generateDesignConcepts = async (
     });
 
     return JSON.parse(response.text || "[]");
+  });
+};
+
+export const identifyVehicle = async (base64Image: string): Promise<VehicleData> => {
+  return withRetry(async () => {
+    const ai = getAI();
+    const mimeType = base64Image.split(';')[0].split(':')[1];
+    const data = base64Image.split(',')[1];
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview',
+      contents: {
+        parts: [
+          { inlineData: { data, mimeType } },
+          { text: "Identify the year, manufacturer, model, and vehicle type (Sports Car, Sedan, SUV, Truck, Van, Supercar, Coupe, Hatchback) of the vehicle in this photo. Return JSON." }
+        ]
+      },
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            year: { type: Type.STRING },
+            manufacturer: { type: Type.STRING },
+            model: { type: Type.STRING },
+            type: { type: Type.STRING }
+          },
+          required: ["year", "manufacturer", "model", "type"]
+        }
+      }
+    });
+
+    return JSON.parse(response.text || "{}");
   });
 };
 

@@ -66,7 +66,7 @@ const ThreeSixtyViewer: React.FC<Props> = ({ frames }) => {
       {/* Repositioned 'Drag to Rotate' overlay to the bottom */}
       <div className="absolute inset-x-0 bottom-20 pointer-events-none flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div className="bg-zinc-900/90 backdrop-blur-md border border-zinc-800 px-5 py-2.5 rounded-full flex items-center gap-2.5 text-white/90 shadow-2xl">
-          <MoveHorizontal className="w-4 h-4 text-orange-500 animate-pulse" />
+          <MoveHorizontal className="w-4 h-4 text-red-600 animate-pulse" />
           <span className="text-[10px] font-black tracking-[0.15em] uppercase">DRAG TO ROTATE VEHICLE</span>
         </div>
       </div>
@@ -75,13 +75,13 @@ const ThreeSixtyViewer: React.FC<Props> = ({ frames }) => {
         {frames.map((_, i) => (
           <div 
             key={i} 
-            className={`h-1.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-orange-500 w-6' : 'bg-zinc-700 w-1.5'}`}
+            className={`h-1.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-red-600 w-6' : 'bg-zinc-700 w-1.5'}`}
           />
         ))}
       </div>
 
       <div className="absolute top-6 right-6 bg-zinc-900/95 border border-zinc-800 px-4 py-2 rounded-xl backdrop-blur-md shadow-lg">
-        <span className="text-[10px] font-orbitron font-black text-orange-500 uppercase tracking-widest flex items-center gap-2.5 italic">
+        <span className="text-[10px] font-orbitron font-black text-red-600 uppercase tracking-widest flex items-center gap-2.5 italic">
           <RotateCcw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '3s' }} />
           INTERACTIVE 3D
         </span>

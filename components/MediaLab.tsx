@@ -61,13 +61,13 @@ const MediaLab: React.FC<Props> = ({ onEditImage, isLoading, referenceImage }) =
         {/* Custom Instructions */}
         <div className="space-y-3">
           <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-            <Type className="w-3 h-3 text-orange-500" />
+            <Type className="w-3 h-3 text-red-600" />
             CUSTOM INSTRUCTIONS
           </label>
           <textarea 
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="e.g. 'Add carbon fiber detailing to the roof and mirrors' or 'Place a thin orange pinstripe along the side profile'..."
+            placeholder="e.g. 'Add carbon fiber detailing to the roof and mirrors' or 'Place a thin red pinstripe along the side profile'..."
             className="w-full h-32 bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-white text-sm focus:ring-2 focus:ring-purple-500/50 outline-none resize-none placeholder:text-zinc-700 transition-all"
           />
         </div>
@@ -78,7 +78,7 @@ const MediaLab: React.FC<Props> = ({ onEditImage, isLoading, referenceImage }) =
           className={`w-full py-5 rounded-xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all shadow-xl ${
             isLoading || (!prompt && !selectedStyle) || !referenceImage
             ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-            : 'bg-gradient-to-r from-orange-500 to-purple-600 text-white hover:from-orange-400 hover:to-purple-500 active:scale-[0.98]'
+            : 'bg-gradient-to-r from-red-600 to-purple-600 text-white hover:from-red-500 hover:to-purple-500 active:scale-[0.98]'
           }`}
         >
           {isLoading ? (
@@ -95,8 +95,8 @@ const MediaLab: React.FC<Props> = ({ onEditImage, isLoading, referenceImage }) =
         </button>
 
         {!referenceImage && (
-          <div className="p-4 bg-orange-500/5 border border-orange-500/20 rounded-xl">
-            <p className="text-[10px] text-center text-orange-400 font-bold uppercase tracking-widest italic">
+          <div className="p-4 bg-red-600/5 border border-red-600/20 rounded-xl">
+            <p className="text-[10px] text-center text-red-600 font-bold uppercase tracking-widest italic">
               * Active context missing. Select a design from the vault or upload a photo to begin editing.
             </p>
           </div>

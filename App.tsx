@@ -12,10 +12,11 @@ import {
   generateProImage, 
   editImage, 
   chatWithThinking,
-  generate360Perspectives
+  generate360Perspectives,
+  identifyVehicle
 } from './services/geminiService';
 import { FREE_LIMIT, COLORS_3M_DB, DESIGN_STYLES } from './constants';
-import { Zap, Layout, Wand2, MessageCircle, AlertTriangle, RotateCcw } from 'lucide-react';
+import { Zap, Layout, Wand2, MessageCircle, AlertTriangle, RotateCcw, Shield } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'studio' | 'editor' | 'agent'>('studio');
@@ -27,6 +28,7 @@ const App: React.FC = () => {
   const [referenceImage, setReferenceImage] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const canGenerate = !!(
     (referenceImage || (vehicle.type && vehicle.manufacturer && vehicle.model)) && 
@@ -42,13 +44,29 @@ const App: React.FC = () => {
   };
 
   const handleReset = () => {
-    if (confirm("This will clear your current workspace and chat history. Your saved gallery will remain. Continue?")) {
-      setVehicle({ type: '', manufacturer: '', model: '', year: '' });
-      setDesign({ style: 'Solid Color (Plain Wrap)', colors: [], theme: 'Clean' });
-      setReferenceImage(null);
-      setMessages([]);
-      setErrorMessage(null);
-      setActiveTab('studio');
+    setShowResetConfirm(true);
+  };
+
+  const confirmReset = () => {
+    setVehicle({ type: '', manufacturer: '', model: '', year: '' });
+    setDesign({ style: 'Solid Color (Plain Wrap)', colors: [], theme: 'Clean' });
+    setReferenceImage(null);
+    setMessages([]);
+    setErrorMessage(null);
+    setActiveTab('studio');
+    setShowResetConfirm(false);
+  };
+
+  const handleFileSelect = async (base64: string) => {
+    setReferenceImage(base64);
+    setGenerationState(GenerationState.THINKING);
+    try {
+      const detectedVehicle = await identifyVehicle(base64);
+      setVehicle(detectedVehicle);
+    } catch (err) {
+      console.error("Failed to identify vehicle", err);
+    } finally {
+      setGenerationState(GenerationState.IDLE);
     }
   };
 
@@ -63,7 +81,7 @@ const App: React.FC = () => {
       await checkApiKey();
       setGenerationState(GenerationState.GENERATING_CONCEPTS);
       const studioDesign = { ...design, style: 'Solid Color (Plain Wrap)', theme: 'High-end showcase' };
-      const concepts = await generateDesignConcepts(vehicle, studioDesign, !!referenceImage);
+      const concepts = await generateDesignConcepts(vehicle, studioDesign, !!referenceImage, referenceImage || undefined);
       
       setGenerationState(GenerationState.GENERATING_IMAGE);
       const vehicleName = referenceImage 
@@ -179,21 +197,29 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <nav className="h-20 border-b border-zinc-900 px-6 lg:px-12 flex items-center justify-between sticky top-0 bg-zinc-950/80 backdrop-blur-md z-50">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-orange-500/20">
-            <Zap className="text-white fill-current w-6 h-6" />
+        <a href="https://thatzawraparizona.com/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+          <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border border-zinc-800">
+            <img 
+              src="https://ais-dev-rtwwqqtzqschh3j2hrmvb2-99742305336.us-east1.run.app/logo.png" 
+              alt="Tread & Torque Logo" 
+              className="w-full h-full object-contain p-1"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = '<div class="text-red-600 font-black italic">T&T</div>';
+              }}
+            />
           </div>
           <div>
             <h1 className="text-xl font-orbitron font-black tracking-tighter italic whitespace-nowrap">
-              TREAD & <span className="text-orange-500">TORQUE</span>
+              TREAD & <span className="text-red-600">TORQUE</span>
             </h1>
             <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-500">PRO WRAP VISUALIZER</p>
           </div>
-        </div>
+        </a>
         
         <div className="hidden md:flex items-center gap-6">
           <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-2xl border border-zinc-800">
-             <button onClick={() => setActiveTab('studio')} className={`px-5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${activeTab === 'studio' ? 'bg-zinc-800 text-orange-500' : 'text-zinc-500 hover:text-white'}`}>
+             <button onClick={() => setActiveTab('studio')} className={`px-5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${activeTab === 'studio' ? 'bg-zinc-800 text-red-600' : 'text-zinc-500 hover:text-white'}`}>
                <Layout className="w-4 h-4" /> 1. BASE COAT
              </button>
              <button onClick={() => setActiveTab('editor')} className={`px-5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${activeTab === 'editor' ? 'bg-zinc-800 text-purple-500' : 'text-zinc-500 hover:text-white'}`}>
@@ -206,7 +232,7 @@ const App: React.FC = () => {
 
           <button 
             onClick={handleReset}
-            className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-[10px] font-black text-zinc-400 hover:text-orange-500 hover:border-orange-500/50 transition-all uppercase tracking-widest"
+            className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-[10px] font-black text-zinc-400 hover:text-red-600 hover:border-red-600/50 transition-all uppercase tracking-widest"
           >
             <RotateCcw className="w-3 h-3" />
             New Project
@@ -228,7 +254,7 @@ const App: React.FC = () => {
           <div className="lg:col-span-4 space-y-6">
             <MediaUploader 
               currentImage={referenceImage} 
-              onFileSelect={setReferenceImage} 
+              onFileSelect={handleFileSelect} 
               onClear={() => setReferenceImage(null)} 
             />
             
@@ -275,6 +301,37 @@ const App: React.FC = () => {
       </main>
 
       {showLimitModal && <LeadModal type="limit" onClose={() => setShowLimitModal(false)} onSubmit={() => {}} />}
+      
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => setShowResetConfirm(false)} />
+          <div className="relative w-full max-w-md bg-zinc-900 rounded-3xl p-8 border border-zinc-800 shadow-2xl text-center space-y-6">
+            <div className="inline-flex p-4 bg-red-600/10 rounded-full">
+              <RotateCcw className="w-10 h-10 text-red-600" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-orbitron font-black text-white italic uppercase">New Project?</h2>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                This will clear your current workspace and chat history. Your saved gallery will remain.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <button 
+                onClick={confirmReset}
+                className="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-black rounded-xl transition-all uppercase tracking-widest text-xs"
+              >
+                Confirm Reset
+              </button>
+              <button 
+                onClick={() => setShowResetConfirm(false)}
+                className="w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-black rounded-xl transition-all uppercase tracking-widest text-xs"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

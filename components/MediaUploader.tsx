@@ -44,7 +44,7 @@ const MediaUploader: React.FC<Props> = ({ onFileSelect, currentImage, onClear })
             onClick={() => fileInputRef.current?.click()}
             className="flex flex-col items-center justify-center py-6 rounded-xl border border-zinc-800 bg-zinc-800/50 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-400 group"
           >
-            <Upload className="w-5 h-5 mb-2 group-hover:text-orange-500 transition-colors" />
+            <Upload className="w-5 h-5 mb-2 group-hover:text-red-600 transition-colors" />
             <span className="text-[10px] font-bold uppercase tracking-widest">Upload</span>
           </button>
           <button 
@@ -67,7 +67,7 @@ const MediaUploader: React.FC<Props> = ({ onFileSelect, currentImage, onClear })
           <img src={currentImage} alt="Reference" className="w-full h-full object-cover" />
           
           <div className="absolute top-2 right-2 flex items-center gap-2">
-            <div className="px-2 py-1 bg-orange-500/90 text-white text-[8px] font-black uppercase tracking-[0.2em] rounded backdrop-blur-sm flex items-center gap-1.5 shadow-lg animate-fade-in">
+            <div className="px-2 py-1 bg-red-600/90 text-white text-[8px] font-black uppercase tracking-[0.2em] rounded backdrop-blur-sm flex items-center gap-1.5 shadow-lg animate-fade-in">
               <Zap className="w-2.5 h-2.5 fill-current" />
               PROJECT READY
             </div>
@@ -76,7 +76,7 @@ const MediaUploader: React.FC<Props> = ({ onFileSelect, currentImage, onClear })
           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
              <button 
                onClick={() => fileInputRef.current?.click()}
-               className="px-4 py-2 bg-white text-zinc-950 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-orange-500 hover:text-white transition-all shadow-xl"
+               className="px-4 py-2 bg-white text-zinc-950 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-xl"
              >
                Replace with New
              </button>

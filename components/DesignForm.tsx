@@ -42,7 +42,7 @@ const DesignForm: React.FC<Props> = ({
       <div className="space-y-1">
         <h2 className="text-xl font-bold text-white flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <Sparkles className="text-orange-500 w-5 h-5" />
+            <Sparkles className="text-red-600 w-5 h-5" />
             Vehicle Configuration
           </span>
         </h2>
@@ -63,7 +63,7 @@ const DesignForm: React.FC<Props> = ({
             <select 
               value={vehicle.type}
               onChange={(e) => onChangeVehicle({ type: e.target.value })}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white appearance-none focus:ring-2 focus:ring-red-600/50 outline-none transition-all"
             >
               <option value="">Select Type</option>
               {VEHICLE_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
@@ -78,7 +78,7 @@ const DesignForm: React.FC<Props> = ({
             <select 
               value={vehicle.manufacturer}
               onChange={(e) => onChangeVehicle({ manufacturer: e.target.value, model: '' })}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white appearance-none outline-none focus:ring-2 focus:ring-orange-500/50"
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white appearance-none outline-none focus:ring-2 focus:ring-red-600/50"
             >
               <option value="">Select Brand</option>
               {MANUFACTURERS.map(m => <option key={m} value={m}>{m}</option>)}
@@ -89,7 +89,7 @@ const DesignForm: React.FC<Props> = ({
             <input 
               type="text" placeholder="2024" value={vehicle.year}
               onChange={(e) => onChangeVehicle({ year: e.target.value })}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white outline-none focus:ring-2 focus:ring-orange-500/50"
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white outline-none focus:ring-2 focus:ring-red-600/50"
             />
           </div>
         </div>
@@ -99,7 +99,7 @@ const DesignForm: React.FC<Props> = ({
           <input 
             type="text" placeholder="e.g. Corvette C8" value={vehicle.model}
             onChange={(e) => onChangeVehicle({ model: e.target.value })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white outline-none focus:ring-2 focus:ring-orange-500/50"
+            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2.5 px-3 text-white outline-none focus:ring-2 focus:ring-red-600/50"
           />
         </div>
       </div>
@@ -109,7 +109,7 @@ const DesignForm: React.FC<Props> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
-            <Palette className="w-3 h-3 text-orange-500" />
+            <Palette className="w-3 h-3 text-red-600" />
             3M™ Wrap Film Library
           </label>
           <div className="flex items-center gap-1 text-[9px] font-bold text-zinc-600">
@@ -125,7 +125,7 @@ const DesignForm: React.FC<Props> = ({
               placeholder="Search color name or code (e.g. M203)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white focus:ring-2 focus:ring-orange-500/50 outline-none transition-all placeholder:text-zinc-700"
+              className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white focus:ring-2 focus:ring-red-600/50 outline-none transition-all placeholder:text-zinc-700"
             />
           </div>
 
@@ -136,7 +136,7 @@ const DesignForm: React.FC<Props> = ({
                 onClick={() => setActiveCategory(cat)}
                 className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest whitespace-nowrap transition-all border ${
                   activeCategory === cat 
-                  ? 'bg-orange-500 border-orange-400 text-white shadow-lg shadow-orange-500/20' 
+                  ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-600/20' 
                   : 'bg-zinc-800 border-zinc-700 text-zinc-500 hover:text-zinc-300'
                 }`}
               >
@@ -154,18 +154,18 @@ const DesignForm: React.FC<Props> = ({
                 key={color.code}
                 onClick={() => toggleColor(`${color.name} (${color.code})`)}
                 className={`group relative flex flex-col items-center gap-1.5 p-1 rounded-lg transition-all ${
-                  isSelected ? 'bg-orange-500/10 ring-1 ring-orange-500' : 'hover:bg-zinc-800/50'
+                  isSelected ? 'bg-red-600/10 ring-1 ring-red-600' : 'hover:bg-zinc-800/50'
                 }`}
               >
                 <div 
                   className="w-full aspect-square rounded-md shadow-inner relative overflow-hidden"
-                  style={{ background: color.hex, boxShadow: isSelected ? '0 0 15px rgba(249, 115, 22, 0.4)' : 'none' }}
+                  style={{ background: color.hex, boxShadow: isSelected ? '0 0 15px rgba(220, 38, 38, 0.4)' : 'none' }}
                 >
                    {color.category === 'Matte' && <div className="absolute inset-0 bg-white/5" />}
                    {color.category === 'Satin' && <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-white/10 to-transparent" />}
                    {color.category === 'Chrome' && <div className="absolute inset-0 bg-gradient-to-tr from-white/40 via-transparent to-black/20 mix-blend-overlay" />}
                    {isSelected && (
-                     <div className="absolute inset-0 flex items-center justify-center bg-orange-500/20">
+                     <div className="absolute inset-0 flex items-center justify-center bg-red-600/20">
                         <Sparkles className="w-4 h-4 text-white" />
                      </div>
                    )}
@@ -175,7 +175,7 @@ const DesignForm: React.FC<Props> = ({
                   <p className="text-[7px] font-medium text-zinc-500 truncate uppercase mt-0.5">{color.name}</p>
                 </div>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-32 p-2 bg-zinc-950 border border-zinc-800 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-2xl">
-                  <p className="text-[9px] font-black text-orange-500 uppercase">{color.category}</p>
+                  <p className="text-[9px] font-black text-red-600 uppercase">{color.category}</p>
                   <p className="text-[10px] font-bold text-white">{color.name}</p>
                   <p className="text-[8px] text-zinc-500 mt-1">3M 2080 Series • {color.code}</p>
                 </div>
@@ -192,7 +192,7 @@ const DesignForm: React.FC<Props> = ({
           className={`w-full py-5 rounded-xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all shadow-lg ${
             isLoading || !canGenerate 
             ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-            : 'bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-400 hover:to-purple-500 text-white active:scale-[0.98]'
+            : 'bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-500 hover:to-purple-500 text-white active:scale-[0.98]'
           }`}
         >
           {isLoading ? (

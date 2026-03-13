@@ -51,9 +51,9 @@ const Gallery: React.FC<Props> = ({ designs, generationState, onGenerate360, onP
       {(generationState !== GenerationState.IDLE && generationState !== GenerationState.SUCCESS) && (
         <div className="relative group overflow-hidden rounded-3xl aspect-video bg-zinc-900 border border-zinc-800 flex flex-col items-center justify-center gap-6 animate-pulse">
            <div className="relative">
-              <div className="w-20 h-20 border-4 border-orange-500/10 border-t-orange-500 rounded-full animate-spin" />
+              <div className="w-20 h-20 border-4 border-red-600/10 border-t-red-600 rounded-full animate-spin" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <Sparkles className="w-8 h-8 text-orange-500 fill-current" />
+                <Sparkles className="w-8 h-8 text-red-600 fill-current" />
               </div>
            </div>
            <div className="text-center space-y-2">
@@ -61,11 +61,11 @@ const Gallery: React.FC<Props> = ({ designs, generationState, onGenerate360, onP
                {generationState === GenerationState.GENERATING_360 ? 'Neural Perspective Render...' : 'Pro-Fidelity Wrap Processing...'}
              </p>
              <div className="flex items-center justify-center gap-2">
-               <span className="h-1 w-8 bg-orange-500/20 rounded-full" />
-               <p className="text-[10px] text-orange-500/60 font-black uppercase tracking-[0.3em]">
+               <span className="h-1 w-8 bg-red-600/20 rounded-full" />
+               <p className="text-[10px] text-red-600/60 font-black uppercase tracking-[0.3em]">
                  GEMINI 3 PRO ENGINE ACTIVE
                </p>
-               <span className="h-1 w-8 bg-orange-500/20 rounded-full" />
+               <span className="h-1 w-8 bg-red-600/20 rounded-full" />
              </div>
            </div>
         </div>
@@ -73,7 +73,7 @@ const Gallery: React.FC<Props> = ({ designs, generationState, onGenerate360, onP
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {designs.map((design) => (
-          <div key={design.id} className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-orange-500/30">
+          <div key={design.id} className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-red-600/30">
             <div className="relative aspect-video bg-black">
               <img src={design.url} alt={design.concept.name} className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500" />
               
@@ -108,7 +108,7 @@ const Gallery: React.FC<Props> = ({ designs, generationState, onGenerate360, onP
                 {!design.frames && (
                   <button 
                     onClick={() => onGenerate360(design)}
-                    className="p-3 bg-orange-500/20 backdrop-blur-md border border-orange-500/50 rounded-full text-orange-400 hover:bg-orange-500 hover:text-white transition-all active:scale-95"
+                    className="p-3 bg-red-600/20 backdrop-blur-md border border-red-600/50 rounded-full text-red-400 hover:bg-red-600 hover:text-white transition-all active:scale-95"
                     title="Generate 360 View"
                   >
                     <Rotate3d className="w-5 h-5" />
@@ -158,7 +158,7 @@ const Gallery: React.FC<Props> = ({ designs, generationState, onGenerate360, onP
                     <h4 className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">3M Color Engine Selection</h4>
                     <div className="flex flex-wrap gap-2">
                       {selectedDesign.formData.colors.map((c, i) => (
-                        <span key={i} className="px-2 py-1 bg-zinc-800 text-[10px] font-bold text-orange-500 rounded border border-orange-500/20">{c}</span>
+                        <span key={i} className="px-2 py-1 bg-zinc-800 text-[10px] font-bold text-red-600 rounded border border-red-600/20">{c}</span>
                       ))}
                     </div>
                   </div>
